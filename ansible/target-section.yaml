@@ -1,0 +1,11 @@
+#https://docs.ansible.com/ansible/latest/inventory_guide/intro_patterns.html
+---
+#this is the target section 
+- name: test-task
+  hosts: test
+  user: ubuntu
+  become: yes
+  connection: ssh
+
+#
+    

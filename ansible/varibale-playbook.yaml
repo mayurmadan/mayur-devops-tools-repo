@@ -1,0 +1,26 @@
+#https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html
+---
+- hosts: test[0]
+  user: ubuntu
+  become: yes
+  connection: ssh
+  vars:
+     package_name: nginx
+     svc_nam:
+       - sshd 
+       - apache2
+     greeting: "Hello, world!"
+  tasks:
+    - name: Display variable
+      debug:
+        msg: "{{ greeting }}"    
+    - name: ping to target node1
+      ansible.builtin.ping:
+    - name: service restart
+      ansible.builtin.service: 
+        name: "{{ svc_nam[1] }}" #will select the apache2 only
+        state: restarted
+    - name: install package
+      ansible.builtin.apt:
+        name: "{{package_name}}"
+        state: present  

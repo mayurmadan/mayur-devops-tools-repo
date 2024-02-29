@@ -1,0 +1,26 @@
+#https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_conditionals.html
+- hosts: all
+  user: ubuntu
+  become: yes
+  connection: ssh
+  tasks:
+    - name: install package depend on OS
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      loop:        
+        - apache2
+        - nginx
+        - mlocate
+        - net-tools
+      when: ansible_facts['os_family'] == "Debian"
+    - name: install package depend on OS
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      loop:      
+        - httpd  
+        - nginx
+        - mlocate
+        - net-tools
+      when: ansible_facts['os_family'] == "CentOS"

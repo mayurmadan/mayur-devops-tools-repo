@@ -1,0 +1,36 @@
+#https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_handlers.html
+---
+- hosts: test[0]
+  user: ubuntu
+  become: yes
+  connection: ssh
+  vars:
+     svc_nam:
+       - sshd 
+       - apache2
+     greeting: "Hello, world!"
+  tasks:
+    - name: install apache2
+      ansible.builtin.apt:
+        name: "{{ svc_nam[1] }}" #will select the apache2 only
+        state: present
+      notify:
+        - Restart apache2      #use same name in notify
+   
+ #for testing i have added below steps
+    - name: check service status
+      ansible.builtin.service:
+        name: "{{ svc_nam[1] }}"
+        state: stopped
+
+#you should locate this handler block at the end, as it will not allow to execute statement/block after notify, in our case service stop
+  handlers:          
+    - name: Restart apache2  #name should be same as notify
+      ansible.builtin.service: 
+        name: "{{ svc_nam[1] }}" #will select the apache2 only after install first from second time onwards it will not run
+        state: restarted
+    #for testing i have added below steps
+   #- name: check service status
+   #  ansible.builtin.apt:
+   #  name: "{{package_name}}"
+   #    state: stopped

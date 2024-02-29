@@ -1,0 +1,17 @@
+---
+- hosts: test[0]
+  user: ubuntu
+  become: yes
+  connection: ssh
+  tasks:
+    - name: ping to target node1
+      ansible.builtin.ping:
+    - name: check service status
+      ansible.builtin.service: 
+        name: apache2
+        state: stopped
+    - name: check service status
+      ansible.builtin.apt:
+        name: mlocate
+        state: present          
+

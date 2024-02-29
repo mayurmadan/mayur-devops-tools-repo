@@ -1,0 +1,17 @@
+#https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_loops.html
+#target section
+- hosts: test[0]
+  user: ubuntu
+  become: yes
+  connection: ssh 
+#task section below
+  tasks: 
+    - name: add user in target
+      ansible.builtin.user:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - mayur
+        - sachine
+        - dev
+        - shaurya

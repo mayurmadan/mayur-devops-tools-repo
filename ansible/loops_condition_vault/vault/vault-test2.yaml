@@ -1,0 +1,13 @@
+# playbook.yml
+
+---
+- name: Example Playbook
+  hosts: localhost
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Display sensitive password
+      debug:
+        msg: "The sensitive password is {{ sensitive_password }}"
+
